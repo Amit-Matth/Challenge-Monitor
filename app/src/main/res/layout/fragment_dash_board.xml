@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/futuristic_bg_gradient"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragments.DashBoardFragment">
+
+        <FrameLayout
+            android:id="@+id/loadingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/loadingProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/neon_cyan" />
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:alpha="0.7"
+                android:background="@drawable/neon_ring_glow" />
+
+            <TextView
+                android:id="@+id/loadingProgressBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="140dp"
+                android:alpha="0.8"
+                android:fontFamily="@font/bitcount_grid_double"
+                android:text="@string/crunching_numbers"
+                android:textColor="@color/neon_cyan"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/contentGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="11dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/bitcount_grid_double"
+                    android:letterSpacing="0.1"
+                    android:shadowColor="@color/neon_cyan"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="8"
+                    android:text="@string/progress_stats"
+                    android:textColor="@color/neon_cyan"
+                    android:textSize="28sp" />
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/neon_line_gradient" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:alpha="0.6" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/progressStatsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.85"
+                            android:background="@drawable/ultra_glass_bg" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.4"
+                            android:background="@drawable/floating_particles_overlay" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.7"
+                            android:background="@drawable/dynamic_border_glow" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.15"
+                            android:background="@drawable/neural_circuit_pattern" />
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:alpha="0.3"
+                                android:background="@drawable/header_energy_glow" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_marginEnd="12dp"
+                                        android:background="@drawable/energy_crystal_left"
+                                        tools:ignore="TooDeepLayout" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha="0.9"
+                                        android:fontFamily="@font/bitcount_grid_double"
+                                        android:letterSpacing="0.15"
+                                        android:shadowColor="@color/neon_cyan"
+                                        android:shadowDx="0"
+                                        android:shadowDy="0"
+                                        android:shadowRadius="8"
+                                        android:text="@string/daily_statistics"
+                                        android:textColor="@color/neon_cyan"
+                                        android:textSize="14sp" />
+
+                                    <View
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_marginStart="12dp"
+                                        android:background="@drawable/energy_crystal_right" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/todayStatsTitleTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/bitcount_grid_double"
+                                    android:letterSpacing="0.08"
+                                    android:shadowColor="@color/neon_blue"
+                                    android:shadowDx="2"
+                                    android:shadowDy="2"
+                                    android:shadowRadius="6"
+                                    android:text="@string/performance_metrics"
+                                    android:textColor="@color/white_shadowed"
+                                    android:textSize="24sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="2dp"
+                                        android:layout_marginEnd="8dp"
+                                        android:background="@drawable/data_stream_line" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha="0.85"
+                                        android:fontFamily="@font/bitcount_grid_double"
+                                        android:letterSpacing="0.1"
+                                        android:text="@string/today_s_activity"
+                                        android:textColor="@color/neon_pink"
+                                        android:textSize="11sp" />
+
+                                    <View
+                                        android:layout_width="30dp"
+                                        android:layout_height="2dp"
+                                        android:layout_marginStart="8dp"
+                                        android:background="@drawable/data_stream_line" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="top|start"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/tech_corner_tl" />
+
+                            <View
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/tech_corner_tr" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/holo_divider_left" />
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="20dp"
+                                android:layout_marginHorizontal="12dp"
+                                android:background="@drawable/holo_divider_center" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/holo_divider_right" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.3"
+                                android:background="@drawable/scanning_lines_overlay" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/progressBarsRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clipToPadding="false"
+                                    android:orientation="vertical"
+                                    android:paddingVertical="8dp"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    tools:listitem="@layout/item_metric_progress_bar_only" />
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/metricDetailsRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clipToPadding="false"
+                                    android:nestedScrollingEnabled="false"
+                                    android:padding="8dp"
+                                    tools:listitem="@layout/item_metric_detail" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="top|start"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    android:alpha="0.8"
+                    android:background="@drawable/floating_energy_orb_cyan" />
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="40dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/floating_energy_orb_pink" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginBottom="30dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/floating_energy_orb_green" />
+
+            </FrameLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dateNavigationCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/holographic_panel_bg" />
+
+                <LinearLayout
+                    android:id="@+id/dateNavigationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp">
+
+                    <FrameLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_bg" />
+
+                        <ImageButton
+                            android:id="@+id/prevDateButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_ripple"
+                            android:contentDescription="@string/previous_timeline"
+                            android:padding="16dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/arrow_left"
+                            app:tint="@color/neon_cyan" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:alpha="0.8"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.1"
+                            android:text="@string/temporal_sync"
+                            android:textColor="@color/neon_pink"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/selectedDateTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/work_sans"
+                            android:gravity="center"
+                            android:shadowColor="@color/neon_blue"
+                            android:shadowRadius="6"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="January 01, 2024" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_bg" />
+
+                        <ImageButton
+                            android:id="@+id/nextDateButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_ripple"
+                            android:contentDescription="@string/next_timeline"
+                            android:padding="16dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/arrow_right"
+                            app:tint="@color/neon_cyan" />
+                    </FrameLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dailyLogsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/neon_pink"
+                app:strokeWidth="2dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.1"
+                    android:background="@drawable/neural_network_pattern" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.25"
+                    android:background="@drawable/cyber_card_glow_pink" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/data_stream_icon" />
+
+                        <TextView
+                            android:id="@+id/dailyLogsTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.05"
+                            android:shadowColor="@color/neon_pink"
+                            android:shadowRadius="4"
+                            android:text="@string/daily_activity_log"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="22sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:alpha="0.6"
+                        android:background="@drawable/scan_line_gradient" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dailyLogsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingBottom="8dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_notable_date" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </FrameLayout>
+</androidx.core.widget.NestedScrollView>

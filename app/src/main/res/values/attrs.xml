@@ -1,0 +1,19 @@
+<resources>
+    <declare-styleable name="VerticalRoundedProgressBar">
+        <attr name="vrp_progress" format="integer" />
+        <attr name="vrp_maxProgress" format="integer" />
+        <attr name="vrp_progressColor" format="color" />
+        <attr name="vrp_backgroundColor" format="color" />
+        <attr name="vrp_cornerRadius" format="dimension" />
+        <attr name="vrp_barThickness" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="HorizontalRoundedProgressBar">
+        <attr name="hrp_progress" format="integer" />
+        <attr name="hrp_maxProgress" format="integer" />
+        <attr name="hrp_progressColor" format="color" />
+        <attr name="hrp_backgroundColor" format="color" />
+        <attr name="hrp_cornerRadius" format="dimension" />
+        <attr name="hrp_barThickness" format="dimension" />
+    </declare-styleable>
+</resources>

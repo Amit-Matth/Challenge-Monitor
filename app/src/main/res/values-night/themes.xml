@@ -1,0 +1,70 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.ChallengeMonitor" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/blue_shadowed</item>
+
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.ChallengeMonitor" parent="Base.Theme.ChallengeMonitor" />
+
+    <style name="MySpinnerTimePicker" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+
+    <style name="NoActionBarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/blue_shadowed</item>
+    </style>
+
+    <style name="DayLabelTextStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/pink_shadowed</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+    </style>
+
+    <style name="LegendItemStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:paddingHorizontal">4dp</item>
+        <item name="android:layout_marginHorizontal">2dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="MaterialTimePickerTheme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/pink_shadowed</item>
+        <item name="android:textColorPrimary">@color/white_shadowed</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:numbersTextColor">@color/white_shadowed</item>
+        <item name="android:numbersBackgroundColor">@android:color/transparent</item>
+        <item name="android:numbersSelectorColor">@color/pink_shadowed</item>
+        <item name="dividerColor">@color/pink_shadowed</item>
+        <item name="android:headerBackground">@color/cardDarkBackground</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="hintTextColor">@color/text_input_layout_stroke_color</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout.OutlinedBox.ExposedDropdownMenu.WhiteUnfocused" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="hintTextColor">@color/text_input_layout_stroke_color</item>
+    </style>
+
+</resources>

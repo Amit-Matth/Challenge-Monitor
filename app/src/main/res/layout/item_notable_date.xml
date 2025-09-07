@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp" 
+    app:cardBackgroundColor="@color/cardDarkBackgroundTransparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/grey_very_light_transparent"
+    app:strokeWidth="0.5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/logItemTime"
+            tools:text="10:30\nAM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bitcount_grid_double"
+            android:gravity="center"
+            android:paddingEnd="12dp" 
+            android:paddingStart="4dp" 
+            android:textColor="@color/pink_shadowed"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/pink_shadowed_light" 
+            android:layout_marginEnd="12dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/logItemChallengeTitle"
+                tools:text="Challenge Title Here and it could be a bit longer to test wrapping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white_shadowed"
+                android:textSize="16sp"
+                android:fontFamily="@font/work_sans"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/logItemStatus"
+                tools:text="Status: FOLLOWED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/grey_light"
+                android:fontFamily="@font/work_sans"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/logItemNotes"
+                tools:text="Notes: User completed the task with extra effort and dedication shown throughout the process."
+                tools:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/grey_light"
+                android:fontFamily="@font/work_sans"
+                android:textStyle="italic"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

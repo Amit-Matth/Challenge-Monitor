@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Challenge Monitor</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
+    <string-array name="duration_options">
+        <item>7 Days</item>
+        <item>14 Days</item>
+        <item>21 Days</item>
+        <item>30 Days</item>
+        <item>Custom</item>
+    </string-array>
+    <string name="create_challenge">Create Challenge</string>
+    <string name="update_challenge">Update Challenge</string>
+    <string name="mark_not_followed">Mark Not Followed</string>
+    <string name="confirm_not_followed_title">Confirm unfollowing \'%1$s\' for %2$s?</string>
+    <string name="message_marked_not_followed">Challenge %s not followed today</string>
+    <string name="confirm_skip_title">Confirm Skip</string>
+    <string name="confirm_skip_message">Are you sure you want to skip this challenge for %1$s?</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="message_marked_skipped">Marked as skipped.</string>
+    <string name="no_challenges_for_date">No challenges scheduled for %1$s.</string>
+    <string name="notes_skipped_by_user">Skipped by user from Home screen.</string>
+    <string name="override_log_prompt">Override Existing Log?\nYou have already marked this challenge for this date. Marking again will override the previous status. Continue?</string>
+    <string name="override_log_prompt_skip">A log already exists. Do you want to override it and mark as skipped?</string>
+    <string name="action_yes">Yes</string>
+    <string name="confirm_skip_title_with_date">Skip Challenge for %s?</string>
+    <string name="dashboard_no_activity_on_date">No Activity on %1$s</string>
+    <string name="dashboard_activity_on_date">Activity on %1$s</string>
+    <string name="dashboard_metric_success_rate">Success Rate</string>
+    <string name="dashboard_metric_total_challenges">Total Challenges</string>
+    <string name="dashboard_metric_completed_overall">Completed (Overall)</string>
+    <string name="dashboard_metric_followed_today">Followed Today</string>
+    <string name="dashboard_metric_not_followed_today">Not Followed Today</string>
+    <string name="dashboard_metric_skipped_today">Skipped Today</string>
+    <string name="dashboard_metric_logged_today">Logged Today</string>
+    <string name="dashboard_metric_unlogged_today">Unlogged Today</string>
+    <string name="dashboard_metric_fraction_format">%1$d/%2$d (%3$s%%)</string>
+    <string name="future_date_log_error_title">Future Date</string>
+    <string name="future_date_log_error_message">You cannot log actions for future dates.</string>
+    <string name="past_date_log_error_title">Past Date</string>
+    <string name="past_date_log_error_message">You cannot log actions for past dates.</string>
+    <string name="action_ok">OK</string>
+    <string name="status_already_set">Challenge is already marked with this status for the selected date.</string>
+    <string name="message_marked_done_simple">Marked as done.</string>
+    <string name="override_log_prompt_not_followed">This is already marked. Do you want to override it and mark it as not followed?</string>
+    <string name="no_unlogged_challenges_for_date">No unlogged challenges for %1$s.</string>
+    <string name="no_logged_challenges_for_date">No logged challenges for %1$s.</string>
+    <string name="no_completed_challenges_for_date">No challenges completed on %1$s.</string>
+    <string name="log_item_status">Status: %1$s</string>
+    <string name="log_item_notes">Notes: %1$s</string>
+    <string name="toolbar_greeting_format">Hello, %1$s</string>
+    <string name="crunching_numbers">Crunching Numbers...</string>
+    <string name="progress_stats">PROGRESS STATS</string>
+    <string name="performance_metrics">PERFORMANCE METRICS</string>
+    <string name="previous_timeline">Previous Timeline</string>
+    <string name="daily_activity_log">DAILY ACTIVITY LOG</string>
+    <string name="next_timeline">Next Timeline</string>
+    <string name="temporal_sync">HISTORY FOR</string>
+    <string name="today_s_activity">TODAY\'S ACTIVITY</string>
+    <string name="daily_statistics">DAILY STATISTICS</string>
+    <string name="title">Title</string>
+    <string name="create_new_challenge">CREATE NEW CHALLENGE</string>
+    <string name="select_duration">Select Duration</string>
+    <string name="_21_days">21 Days</string>
+    <string name="_7_days">7 Days</string>
+    <string name="_14_days">14 Days</string>
+    <string name="no_challenges_found_to_calculate_streaks">No challenges found to calculate streaks.</string>
+    <string name="not_logged_today">Not Logged Today</string>
+    <string name="logged_today">Logged Today</string>
+    <string name="skipped_today">Skipped Today</string>
+    <string name="followed_challenges">Followed Challenges</string>
+    <string name="not_followed_challenges">Not Followed Challenges</string>
+    <string name="streaks">Streaks</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="completed">Completed</string>
+</resources>

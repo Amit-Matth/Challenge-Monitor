@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/createTaskFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/futuristic_bg_gradient"
+    android:fillViewport="true"
+    android:paddingLeft="24dp"
+    android:paddingTop="24dp"
+    android:paddingRight="24dp"
+    android:paddingBottom="24dp"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/headerTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bitcount_grid_double"
+            android:text="@string/create_new_challenge"
+            android:textColor="@color/neon_cyan"
+            android:textSize="28sp"
+            android:layout_gravity="center_horizontal"
+            android:shadowColor="@color/neon_cyan"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="8"
+            android:letterSpacing="0.1"/>
+        <View
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/neon_line_gradient" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_cyan"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cyber_card_glow_cyan_alpha"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/titleInputLayout"
+                    style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/titleEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:padding="12dp"
+                        android:textColor="@color/white_shadowed"
+                        android:textColorHint="@color/grey_light_transparent" 
+                        android:textSize="16sp"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="8" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descriptionInputLayout"
+                    style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Description(Optional)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:padding="12dp"
+                        android:textColor="@color/white_shadowed"
+                        android:textColorHint="@color/grey_light_transparent"
+                        android:textSize="16sp"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="8" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_duration"
+                    android:textColor="@color/neon_cyan_transparent" 
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <RadioGroup
+                    android:id="@+id/durationRadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/duration7DaysRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_7_days"
+                        android:textColor="@color/white_shadowed"
+                        android:buttonTint="@color/neon_cyan"/>
+
+                    <RadioButton
+                        android:id="@+id/duration14DaysRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_14_days"
+                        android:textColor="@color/white_shadowed"
+                        android:buttonTint="@color/neon_cyan"/>
+
+                    <RadioButton
+                        android:id="@+id/duration21DaysRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_21_days"
+                        android:textColor="@color/white_shadowed"
+                        android:buttonTint="@color/neon_cyan"/>
+
+                    <RadioButton
+                        android:id="@+id/duration30DaysRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30 Days"
+                        android:textColor="@color/white_shadowed"
+                        android:buttonTint="@color/neon_cyan"/>
+
+                    <RadioButton
+                        android:id="@+id/durationCustomRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Custom"
+                        android:textColor="@color/white_shadowed"
+                        android:buttonTint="@color/neon_cyan"/>
+                </RadioGroup>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/customDurationDaysInputLayout"
+                    style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Phase Duration (Cycles)"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customDurationDaysEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="@color/white_shadowed"
+                        android:textColorHint="@color/grey_light_transparent"
+                        android:textSize="16sp"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="8" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/startDateInputLayout"
+                        style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Start Date"
+                        android:layout_marginEnd="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/startDateEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableTint="@color/neon_cyan"
+                            android:padding="12dp"
+                            android:textColor="@color/white_shadowed"
+                            android:textColorHint="@color/grey_light_transparent"
+                            android:textSize="16sp"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:drawableStart="@drawable/baseline_calendar_today_24"
+                            android:drawablePadding="8dp"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="8" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/endDateInputLayout"
+                        style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="End Date"
+                        android:layout_marginStart="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/endDateEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:drawableTint="@color/neon_cyan"
+                            android:textColor="@color/white_shadowed"
+                            android:textColorHint="@color/grey_light_transparent"
+                            android:textSize="16sp"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:drawableStart="@drawable/baseline_calendar_today_24"
+                            android:drawablePadding="8dp"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="8" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="12dp"
+                android:text="Cancel"
+                android:textColor="@color/neon_pink"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_baseline_cancel_24"
+                app:iconTint="@color/neon_pink"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="@color/neon_pink"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="24dp"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createChallengeButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="12dp"
+                android:text="Create"
+                android:textColor="@color/neon_cyan"
+                android:textSize="16sp"
+                app:icon="@drawable/send_24px"
+                app:iconTint="@color/neon_cyan"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="@color/neon_cyan"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="24dp"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

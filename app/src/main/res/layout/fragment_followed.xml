@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/futuristic_bg_gradient" 
+    android:paddingBottom="?attr/actionBarSize"
+    android:clipToPadding="false"
+    tools:context=".ui.fragments.FollowedFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <FrameLayout
+            android:id="@+id/loadingContainerFollowed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" 
+            android:paddingTop="50dp" 
+            android:paddingBottom="50dp">
+
+            <ProgressBar
+                android:id="@+id/loadingProgressBarFollowed" 
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/neon_cyan"
+                style="@style/Widget.AppCompat.ProgressBar" />
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/neon_ring_glow"
+                android:alpha="0.7" />
+
+            <TextView
+                android:id="@+id/loadingProgressBarTextFollowed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp" 
+                android:text="Loading Data..."
+                android:textColor="@color/neon_cyan"
+                android:textSize="14sp"
+                android:fontFamily="@font/bitcount_grid_double"
+                android:alpha="0.8" />
+        </FrameLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/todayFollowedCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/glass_bg"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_cyan"
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/cyber_card_glow_cyan_alpha"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/data_stream_icon" 
+                        android:layout_marginEnd="8dp" />
+                    <TextView
+                        android:id="@+id/textViewTodayFollowedTitle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Today's Followed"
+                        android:textColor="@color/white_shadowed"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/bitcount_grid_double"
+                        android:letterSpacing="0.05"
+                        android:shadowColor="@color/neon_cyan"
+                        android:shadowRadius="4"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/scan_line_gradient"
+                    android:layout_marginBottom="12dp"
+                    android:alpha="0.6" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTodayFollowed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_challenge_layout"
+                    android:minHeight="50dp" />
+
+                <TextView
+                    android:id="@+id/emptyStateTextViewTodayFollowed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No challenges marked as followed today."
+                    android:gravity="center"
+                    android:textColor="@color/grey_light_transparent"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/work_sans"
+                    android:visibility="gone"
+                    android:paddingVertical="24dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/historicalFollowedCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/glass_bg"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_pink" 
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/cyber_card_glow_pink_alpha"
+                android:padding="16dp">
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/data_stream_icon" 
+                        android:layout_marginEnd="8dp" />
+                    <TextView
+                        android:id="@+id/textViewHistoricalFollowedTitle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Historically Followed"
+                        android:textColor="@color/white_shadowed"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/bitcount_grid_double"
+                        android:letterSpacing="0.05"
+                        android:shadowColor="@color/neon_pink"
+                        android:shadowRadius="4"/>
+                </LinearLayout>
+                 <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/scan_line_gradient"
+                    android:layout_marginBottom="12dp"
+                    android:alpha="0.6" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewHistoricalFollowed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_challenge_layout" 
+                    android:minHeight="50dp"/>
+
+                <TextView
+                    android:id="@+id/emptyStateTextViewHistoricalFollowed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No historical data for followed challenges."
+                    android:gravity="center"
+                    android:textColor="@color/grey_light_transparent"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/work_sans"
+                    android:visibility="gone"
+                    android:paddingVertical="24dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

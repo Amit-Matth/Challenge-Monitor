@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00DDFF</color>
+    <color name="colorOnPrimary">#01a9fc</color>
+    <color name="colorAccent">#2596be</color>
+    <color name="bluish">#00F0FF</color>
+    <color name="backgroundColor">#26193B</color>
+    <color name="cardBackground">#26193B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_shadowed">#e8e4fe</color>
+    <color name="pink_shadowed">#fe83dd</color>
+    <color name="blue_shadowed">#1b042e</color>
+    <color name="black">#000000</color>
+    <color name="neonBlue">#00FFFF</color>
+    <color name="neonGreen">#39FF14</color>
+    <color name="grey_dark">#FF333333</color>
+    <color name="neon_cyan">#00FFFF</color>
+    <color name="neon_blue">#0099FF</color>
+    <color name="neon_pink">#FF0099</color>
+    <color name="neon_green">#39FF14</color>
+    <color name="dark_bg">#0D1117</color>
+    <color name="glass_bg">#1A1A1A</color>
+    <color name="nav_border">#33FFFFFF</color>
+    <color name="grey_disabled_switch">#BDBDBD</color>
+    <color name="neon_pink_dark_transparent">#80FF007F</color>
+    <color name="nav_icon_inactive">#80FFFFFF</color>
+    <color name="nav_icon_active">#00FFFF</color>
+    <color name="nav_text_inactive">#99FFFFFF</color>
+    <color name="nav_text_active">#FFFFFF</color>
+    <color name="red_error">#F44336</color>
+    <color name="orange_warning">#FF9800</color>
+    <color name="grey_text">#9E9E9E</color>
+    <color name="white_shadowed_light">#B3FFFFFF</color>
+    <color name="pink_shadowed_semi_transparent">#80E91E63</color>
+    <color name="green_success">#95E000</color>
+    <color name="red_unfollowed">#F44336</color>
+    <color name="orange_skipped">#FFC107</color>
+    <color name="blue_followed">#00A2D8</color>
+    <color name="green_light">#4CAF50</color>
+    <color name="blue_light">#2196F3</color>
+    <color name="grey_light">#BDBDBD</color>
+    <color name="grey_transparent">#80808080</color>
+    <color name="neonRed">#FF1744</color>
+    <color name="cardDarkBackground">#1A1B26</color>
+    <color name="neonPink">#FF00FF</color>
+    <color name="calendar_selected_color">#8A2BE2</color>
+    <color name="calendar_dot_color">#8A2BE2</color>
+    <color name="cardDarkBackgroundTransparent">#A01A1B26</color>
+    <color name="grey_light_transparent">#80BDBDBD</color>
+    <color name="grey_very_light_transparent">#60E0E0E0</color>
+    <color name="pink_shadowed_light">#80fe83dd</color>
+    <color name="neon_cyan_transparent">#8000FFFF</color>
+    <array name="pieColors">
+        <item>@color/pink_shadowed</item>
+        <item>@color/blue_light</item>
+        <item>@color/green_light</item>
+    </array>
+    <array name="default_pie_chart_colors">
+        <item>@color/pink_shadowed</item>
+        <item>@color/blue_light</item>
+        <item>@color/green_light</item>
+        <item>@color/orange_light</item>
+        <item>@color/yellow_light</item>
+    </array>
+    <color name="orange_light">#FF9800</color>
+    <color name="yellow_light">#FFEB3B</color>
+    <color name="pie_chart_active_challenge">#FF9800</color>
+    <color name="pie_chart_completed_challenge">#03A9F4</color>
+
+</resources>

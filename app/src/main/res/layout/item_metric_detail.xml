@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/metricDetailIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/cyber_diamond_shape"
+        app:tint="@color/white_shadowed"
+        tools:tint="@color/neon_cyan" />
+
+    <TextView
+        android:id="@+id/metricDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/white_shadowed"
+        android:fontFamily="@font/work_sans"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginBottom="2dp"
+        tools:text="Metric Title" />
+
+    <TextView
+        android:id="@+id/metricDetailValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textColor="@color/white_shadowed"
+        android:fontFamily="@font/work_sans"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="14sp"
+        tools:text="Value" />
+</LinearLayout>

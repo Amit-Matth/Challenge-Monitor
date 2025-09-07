@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="45">
+    <shape android:shape="rectangle">
+        <gradient
+            android:angle="315"
+            android:startColor="#FF00FF"
+            android:endColor="#fe83dd"
+            android:type="linear" />
+        <corners android:radius="2dp" />
+    </shape>
+</rotate>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/futuristic_bg_gradient"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/loadingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/loadingProgressBar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/neon_cyan"
+                style="@style/Widget.AppCompat.ProgressBar" />
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:background="@drawable/neon_ring_glow"
+                android:alpha="0.7" />
+
+            <TextView
+                android:id="@+id/loadingProgressBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                android:text="Loading Timelines..."
+                android:textColor="@color/neon_cyan"
+                android:textSize="14sp"
+                android:fontFamily="@font/bitcount_grid_double"
+                android:alpha="0.8" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/dateCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="11dp"
+            android:visibility="visible">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/calendarCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="20dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/holographic_panel_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="11dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_bg" />
+                        <ImageButton
+                            android:id="@+id/prevMonthButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Previous Month"
+                            android:background="@drawable/cyber_button_ripple"
+                            android:src="@drawable/arrow_left"
+                            app:tint="@color/neon_cyan"
+                            android:scaleType="centerInside"
+                            android:padding="16dp" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Every day counts.."
+                            android:textColor="@color/neon_pink"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.1"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="2dp" />
+
+                        <TextView
+                            android:id="@+id/monthYearTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:gravity="center"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="22sp"
+                            android:shadowColor="@color/neon_blue"
+                            android:shadowRadius="6"
+                            tools:text="January 2024" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cyber_button_bg" />
+                        <ImageButton
+                            android:id="@+id/nextMonthButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Next Month"
+                            android:background="@drawable/cyber_button_ripple"
+                            android:src="@drawable/arrow_right"
+                            app:tint="@color/neon_cyan"
+                            android:scaleType="centerInside"
+                            android:padding="16dp" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/monthCalendarRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingVertical="12dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:id="@+id/contentGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/unloggedSectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/neon_cyan"
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/unloggedSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/cyber_card_glow_cyan_alpha"
+                    android:padding="11dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/data_stream_icon" 
+                            android:layout_marginEnd="8dp" />
+                        <TextView
+                            android:id="@+id/unloggedTitleTextView"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="NOT LOGGED YET"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.05"
+                            android:shadowColor="@color/neon_cyan"
+                            android:shadowRadius="4"/>
+                        <ImageView
+                            android:id="@+id/unloggedInfoIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info_outline"
+                            app:tint="@color/neon_pink" 
+                            android:contentDescription="Info for unlogged challenges" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/scan_line_gradient"
+                        android:layout_marginBottom="12dp"
+                        android:alpha="0.6" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/unloggedChallengesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_challenge_layout" />
+
+                    <TextView
+                        android:id="@+id/emptyStateUnloggedTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No pending logs for selected date."
+                        android:textColor="@color/grey_light_transparent"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/work_sans"
+                        android:gravity="center"
+                        android:paddingVertical="24dp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/loggedSectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/neon_pink" 
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/loggedSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/cyber_card_glow_pink_alpha"
+                    android:padding="11dp">
+                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/data_stream_icon" 
+                            android:layout_marginEnd="8dp" />
+                        <TextView
+                            android:id="@+id/loggedTitleTextView"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="LOGGED CHALLENGES"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.05"
+                            android:shadowColor="@color/neon_pink"
+                            android:shadowRadius="4"/>
+                        <ImageView
+                            android:id="@+id/loggedInfoIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info_outline"
+                            app:tint="@color/neon_cyan" 
+                            android:contentDescription="Info for logged challenges" />
+                    </LinearLayout>
+                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/scan_line_gradient"
+                        android:layout_marginBottom="12dp"
+                        android:alpha="0.6" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/loggedChallengesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_challenge_layout" />
+
+                    <TextView
+                        android:id="@+id/emptyStateLoggedTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No challenges logged for selected date."
+                        android:textColor="@color/grey_light_transparent"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/work_sans"
+                        android:gravity="center"
+                        android:paddingVertical="24dp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/completedSectionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/glass_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/green_light" 
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/completedSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/cyber_card_glow_green_alpha"
+                    android:padding="11dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/data_stream_icon" 
+                            android:layout_marginEnd="8dp" />
+                        <TextView
+                            android:id="@+id/completedTitleTextView"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="COMPLETE ON THIS DATE"
+                            android:textColor="@color/white_shadowed"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/bitcount_grid_double"
+                            android:letterSpacing="0.05"
+                            android:shadowColor="@color/green_light"
+                            android:shadowRadius="4"/>
+                        <ImageView
+                            android:id="@+id/completedInfoIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_info_outline"
+                            app:tint="@color/neon_blue" 
+                            android:contentDescription="Info for completed challenges" />
+                    </LinearLayout>
+                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/scan_line_gradient"
+                        android:layout_marginBottom="12dp"
+                        android:alpha="0.6" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/completedChallengesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_challenge_layout" />
+
+                    <TextView
+                        android:id="@+id/emptyStateCompletedTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No challenges completed on selected date."
+                        android:textColor="@color/grey_light_transparent"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/work_sans"
+                        android:gravity="center"
+                        android:paddingVertical="24dp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</androidx.core.widget.NestedScrollView>

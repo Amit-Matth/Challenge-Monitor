@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/futuristic_bg_gradient"
+    android:fillViewport="true"
+    tools:context=".ui.fragments.SettingsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/bitcount_grid_double"
+            android:text="Profile Settings"
+            android:textColor="@color/neon_cyan"
+            android:textSize="24sp"
+            android:shadowColor="@color/neon_cyan"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="6"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="16dp"/>
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/neon_line_gradient" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profileSettingsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/glass_bg"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_cyan"
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="20dp">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/cyber_card_glow_cyan_alpha"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/settingsProfileImageView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    tools:src="@drawable/outline_account_circle_24"
+                    android:contentDescription="Profile Image"
+                    android:padding="2dp" 
+                    app:strokeColor="@color/neon_cyan" 
+                    app:strokeWidth="2dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp">
+
+                    <TextView
+                        android:id="@+id/settingsUsernameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="User Name"
+                        android:textColor="@color/white_shadowed"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/orbitron_medium" 
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/editProfileButton"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit Profile"
+                        app:icon="@drawable/edit_24px"
+                        app:iconTint="@color/neon_cyan" 
+                        android:textColor="@color/white_shadowed" 
+                        android:fontFamily="@font/orbitron_medium" 
+                        android:textSize="16sp"
+                        app:backgroundTint="@android:color/transparent"
+                        app:strokeColor="@color/neon_cyan" 
+                        app:strokeWidth="1dp"
+                        app:cornerRadius="20dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/bitcount_grid_double"
+            android:text="Notification Settings"
+            android:textColor="@color/neon_pink" 
+            android:textSize="24sp"
+            android:shadowColor="@color/neon_pink" 
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="6"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="16dp"/>
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/neon_line_gradient" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/notificationSettingsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/glass_bg"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_pink" 
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cyber_card_glow_pink_alpha"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily Reminder"
+                    android:textColor="@color/white_shadowed"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/orbitron_medium" 
+                    android:layout_marginBottom="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/reminderTimeTextView"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        tools:text="10:00 AM"
+                        android:text="Tap to set"
+                        app:icon="@drawable/edit_24px"
+                        app:iconTint="@color/neon_pink" 
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white_shadowed" 
+                        android:fontFamily="@font/orbitron_medium" 
+                        android:textSize="16sp"
+                        app:backgroundTint="@android:color/transparent"
+                        app:strokeColor="@color/neon_pink" 
+                        app:strokeWidth="1dp"
+                        app:cornerRadius="20dp"/>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/reminderSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/neon_pink_selector" 
+                        app:trackTint="@color/neon_pink_track_selector" 
+                        android:textColor="@color/white_shadowed"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tap time to change. Toggle switch to enable/disable."
+                    android:textColor="@color/grey_light_transparent" 
+                    android:textSize="14sp"
+                    android:fontFamily="@font/work_sans"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

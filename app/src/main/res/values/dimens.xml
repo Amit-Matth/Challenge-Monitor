@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circular_progress_max_size">250dp</dimen>
+    <dimen name="nav_item_ripple_start_size">8dp</dimen>
+    <dimen name="nav_item_ripple_start_size_centered">10dp</dimen>
+</resources>

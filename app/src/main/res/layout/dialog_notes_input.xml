@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/dialog_custom_background">
+
+    <TextView
+        android:id="@+id/dialogTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reason (Optional)"
+        android:textSize="22sp"
+        android:fontFamily="@font/bitcount_grid_double"
+        android:textColor="@color/white_shadowed"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:shadowColor="@color/pink_shadowed"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="4"
+        android:layout_marginBottom="6dp"/>
+
+    <TextView
+        android:id="@+id/dialogSubTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reason (Optional)"
+        android:textSize="17sp"
+        android:visibility="gone"
+        android:fontFamily="@font/open_sans"
+        android:textColor="@color/white_shadowed"
+        android:textAppearance="?attr/textAppearanceHeadline1"
+        android:layout_marginBottom="16dp"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleInputLayout"
+        style="@style/Widget.App.TextInputLayout.OutlinedBox.WhiteUnfocused"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxStrokeColor="@color/neon_cyan"
+        android:hint="Enter why?)">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/notesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="14dp"
+            android:textColor="@color/white_shadowed"
+            android:textColorHint="@color/grey_light_transparent"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/pink_shadowed"
+            android:textSize="16sp"
+            android:paddingVertical="12dp"
+            app:backgroundTint="@android:color/transparent"
+            app:strokeColor="@color/neon_cyan"
+            app:strokeWidth="1.5dp"
+            app:cornerRadius="24dp"/>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/pink_shadowed"
+            android:textSize="16sp"
+            android:paddingVertical="12dp"
+            app:backgroundTint="@android:color/transparent"
+            app:strokeColor="@color/neon_cyan"
+            app:strokeWidth="1.5dp"
+            app:cornerRadius="24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
