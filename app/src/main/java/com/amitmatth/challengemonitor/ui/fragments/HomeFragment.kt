@@ -1,7 +1,6 @@
 package com.amitmatth.challengemonitor.ui.fragments
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.graphics.drawable.toDrawable
 
 class HomeFragment : Fragment() {
 
@@ -204,7 +204,7 @@ class HomeFragment : Fragment() {
 
     private fun checkAndShowContent() {
         if (loggedDataLoaded && unloggedDataLoaded && concludingTodayDataLoaded) {
-            _binding?.loadingProgressBar?.visibility = View.GONE
+            _binding?.loadingContainer?.visibility = View.GONE
             _binding?.contentGroup?.visibility = View.VISIBLE
             isLoadingData = false
         } else {
@@ -345,10 +345,9 @@ class HomeFragment : Fragment() {
 
         if (::calendarAdapter.isInitialized) {
             calendarAdapter.setSelectedDate(this.selectedDate)
-            calendarAdapter.notifyDataSetChanged()
-            Log.d(
+        Log.d(
                 "HomeFragment",
-                "setupMonthCalendarView: setSelectedDate called on adapter and notified."
+                "setupMonthCalendarView: setSelectedDate called on adapter."
             )
         }
 
@@ -565,7 +564,7 @@ class HomeFragment : Fragment() {
                 saveButton.text = getString(R.string.action_ok)
 
                 val alertDialog = AlertDialog.Builder(requireContext()).setView(dialogView).create()
-                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
                 saveButton.setOnClickListener {
                     alertDialog.dismiss()
@@ -596,7 +595,7 @@ class HomeFragment : Fragment() {
                 val alertDialog = AlertDialog.Builder(requireContext())
                     .setView(dialogView)
                     .create()
-                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
                 saveButton.setOnClickListener { alertDialog.dismiss() }
                 alertDialog.show()
@@ -649,7 +648,7 @@ class HomeFragment : Fragment() {
 
                         val notesDialog =
                             AlertDialog.Builder(requireContext()).setView(dialogView).create()
-                        notesDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        notesDialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
                         saveButton.setOnClickListener {
                             viewLifecycleOwner.lifecycleScope.launch {
                                 proceedWithAction(notesEditText.text.toString().trim())
@@ -696,7 +695,7 @@ class HomeFragment : Fragment() {
 
                 val overrideAlertDialog =
                     AlertDialog.Builder(requireContext()).setView(overrideDialogView).create()
-                overrideAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                overrideAlertDialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
                 overrideSaveButton.setOnClickListener {
                     viewLifecycleOwner.lifecycleScope.launch {
                         showNotesDialogIfNeeded()
@@ -744,7 +743,7 @@ class HomeFragment : Fragment() {
         }
         isLoadingData = true
 
-        _binding?.loadingProgressBar?.visibility = View.VISIBLE
+        _binding?.loadingContainer?.visibility = View.VISIBLE
         _binding?.contentGroup?.visibility = View.GONE
 
         loggedDataLoaded = false
