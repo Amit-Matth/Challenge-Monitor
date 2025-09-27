@@ -4,6 +4,9 @@
 
 <img width="1024" height="351" alt="1000406507" src="https://github.com/user-attachments/assets/9f9cf2ea-608c-444d-a15a-e9bf5699b171" />
 
+### 📲 APK Download
+👉 [**Download Challenge Monitor APK / Open GitHub Release**](https://github.com/Amit-Matth/Challenge-Monitor/releases/tag/v1.0.0)
+
 ## ⚒️ Technologies Used  
 
 <p align="left">
