@@ -6,37 +6,57 @@
     android:paddingStart="8dp"
     android:paddingEnd="11dp"
     android:paddingTop="11dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="8dp"
+    android:minHeight="48dp">
+
+    <TextView
+        android:id="@+id/metricTitleTextView"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bitcount_grid_double"
+        android:letterSpacing="0.05"
+        android:textColor="@color/white_shadowed"
+        android:textSize="14sp"
+        android:lines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed" 
+        app:layout_constraintHorizontal_bias="0" 
+        tools:text="Metric Title Long Name" />
 
     <com.amitmatth.challengemonitor.ui.customview.HorizontalRoundedProgressBar
         android:id="@+id/metricProgressBar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" 
-        app:hrp_barThickness="18dp" 
-        app:hrp_cornerRadius="6dp" 
-        app:hrp_backgroundColor="#444444" 
-        app:hrp_progressColor="@color/neon_pink" 
+        android:layout_height="wrap_content"
+        app:hrp_barThickness="18dp"
+        app:hrp_cornerRadius="6dp"
+        app:hrp_backgroundColor="#444444"
+        app:hrp_progressColor="@color/neon_pink"
         app:hrp_maxProgress="100"
-        app:hrp_progress="0" 
+        app:hrp_progress="0"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/metricValueTextView"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/metricTitleTextView"
+        app:layout_constraintEnd_toStartOf="@+id/metricValueTextView"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         tools:hrp_progress="60" />
 
     <TextView
         android:id="@+id/metricValueTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
+        android:fontFamily="@font/bitcount_grid_double"
+        android:letterSpacing="0.05"
         android:textSize="14sp"
         android:textColor="@color/white_shadowed"
         android:lines="1"
         android:ellipsize="end"
         app:layout_constraintTop_toTopOf="@id/metricProgressBar"
         app:layout_constraintBottom_toBottomOf="@id/metricProgressBar"
-        app:layout_constraintStart_toEndOf="@id/metricProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="60%" />
+        tools:text="100%" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

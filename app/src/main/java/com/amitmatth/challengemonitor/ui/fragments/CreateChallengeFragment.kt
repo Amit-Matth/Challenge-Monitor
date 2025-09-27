@@ -659,7 +659,7 @@ class CreateChallengeFragment : Fragment() {
                 if (rowsAffected > 0) {
                     SnackbarUtils.showCustomSnackbar(requireActivity(), "Challenge updated!")
                     (requireActivity() as MainActivity).loadFragment(
-                        ChallengeDetailsFragment(),
+                        ChallengeDetailsFragment.newInstance(challengeIdToEdit),
                         ChallengeDetailsFragment::class.java.name,
                         true
                     )

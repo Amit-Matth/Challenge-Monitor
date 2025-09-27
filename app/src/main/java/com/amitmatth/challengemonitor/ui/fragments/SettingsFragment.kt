@@ -48,6 +48,7 @@ class SettingsFragment : Fragment() {
         const val KEY_REMINDER_ENABLED = "reminderEnabled"
         const val REMINDER_REQUEST_CODE = 123
         const val ACTION_REMINDER = "com.amitmatth.challengemonitor.ACTION_REMINDER"
+        const val KEY_DELETED_CHALLENGES_COUNT = "deletedChallengesCount"
         private const val TAG = "SettingsFragment"
     }
 
@@ -103,8 +104,8 @@ class SettingsFragment : Fragment() {
         binding.settingsUsernameTextView.text = userName
         Glide.with(this)
             .load(imageUriString)
-            .placeholder(R.drawable.outline_account_circle_24)
-            .error(R.drawable.outline_account_circle_24)
+            .placeholder(R.drawable.app_logo)
+            .error(R.drawable.app_logo)
             .circleCrop()
             .into(binding.settingsProfileImageView)
         Log.d(TAG, "Loaded profile data - Username: $userName, ImageURI: $imageUriString")

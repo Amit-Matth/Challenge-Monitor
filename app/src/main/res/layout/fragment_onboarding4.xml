@@ -55,7 +55,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/outline_account_circle_24"
+                            android:src="@drawable/app_logo"
                             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
                         <ImageView

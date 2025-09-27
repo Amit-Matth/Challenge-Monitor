@@ -1,6 +1,7 @@
 package com.amitmatth.challengemonitor.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -11,6 +12,7 @@ import com.amitmatth.challengemonitor.data.ChallengeRepository
 import com.amitmatth.challengemonitor.model.Challenge
 import com.amitmatth.challengemonitor.model.ChallengeDailyLog
 import com.amitmatth.challengemonitor.model.DailyLogDisplayItem
+import com.amitmatth.challengemonitor.ui.fragments.SettingsFragment
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,10 +25,8 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val repository: ChallengeRepository = ChallengeRepository(application)
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    private val displayDateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
     val allChallenges: LiveData<List<Challenge>> = repository.allChallenges
-
 
     private val _currentChallenge = MutableLiveData<Challenge?>()
     val currentChallenge: LiveData<Challenge?> = _currentChallenge
@@ -106,7 +106,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
                 } else {
                     Log.e(
                         "ChallengeViewModel",
-                        "Could not parse start date '${challenge.startDate}' for challenge ID $newChallengeId. Logs not pre-populated."
+                        "Could not parse start date ''${challenge.startDate}'' for challenge ID $newChallengeId. Logs not pre-populated."
                     )
                 }
             } catch (e: Exception) {
@@ -157,6 +157,20 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             val currentDateStr = dateFormat.format(Date())
 
+            val sharedPrefs = getApplication<Application>().getSharedPreferences(
+                SettingsFragment.PREFS_NAME,
+                Context.MODE_PRIVATE
+            )
+            val currentDeletedCount =
+                sharedPrefs.getInt(SettingsFragment.KEY_DELETED_CHALLENGES_COUNT, 0)
+            sharedPrefs.edit()
+                .putInt(SettingsFragment.KEY_DELETED_CHALLENGES_COUNT, currentDeletedCount + 1)
+                .apply()
+            Log.d(
+                "ChallengeViewModel",
+                "Incremented deleted challenges count to: ${currentDeletedCount + 1}"
+            )
+
             val deleteLog = ChallengeDailyLog(
                 challengeId = challenge.id,
                 logDate = currentDateStr,
@@ -178,17 +192,24 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun fetchChallengeById(challengeId: Long) {
-        Log.d(
-            "ChallengeViewModel",
-            "fetchChallengeById: Clearing old data before fetching ID: $challengeId"
-        )
-        _currentChallenge.postValue(null)
-        _currentChallengeDailyLogs.postValue(emptyList())
+        if (_currentChallenge.value?.id != challengeId) {
+            Log.d(
+                "ChallengeViewModel",
+                "fetchChallengeById: Different ID or no current challenge. Clearing for ID: $challengeId"
+            )
+            _currentChallenge.postValue(null)
+            _currentChallengeDailyLogs.postValue(emptyList())
+        } else {
+            Log.d(
+                "ChallengeViewModel",
+                "fetchChallengeById: Same ID ($challengeId) as current. Preparing to refresh."
+            )
+        }
 
         viewModelScope.launch {
             Log.d(
                 "ChallengeViewModel",
-                "fetchChallengeById: Fetching new data for ID: $challengeId"
+                "fetchChallengeById: Fetching data for ID: $challengeId"
             )
             val challenge = repository.getChallengeById(challengeId)
             Log.d(
@@ -245,20 +266,16 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
             )
             repository.addDailyLog(log)
 
-
             repository.updateChallengeProgressAndStatus(challengeId, dateStr)
 
+            fetchFollowedData(dateStr)
+            fetchUnFollowedData(dateStr)
 
             if (_currentChallenge.value?.id == challengeId) {
                 fetchDailyLogsForChallenge(challengeId)
                 val updatedChallenge = repository.getChallengeById(challengeId)
                 _currentChallenge.postValue(updatedChallenge)
             }
-
-            fetchFollowedData(dateStr)
-            fetchUnFollowedData(dateStr)
-
-            refreshStreakChallenges()
         }
     }
 
@@ -312,57 +329,31 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun fetchFollowedData(currentDate: String) {
         viewModelScope.launch {
-            val todayFollowed = repository.fetchChallengesForDateWithSpecificStatus(
+            Log.d("ChallengeViewModel", "Fetching FOLLOWED challenges for date: $currentDate")
+            val followedToday = repository.fetchChallengesForDateWithSpecificStatus(
                 currentDate,
                 ChallengeDbHelper.STATUS_FOLLOWED
             )
-            _todayFollowedChallenges.postValue(todayFollowed)
-
-            val historicalDates = repository.fetchDistinctDatesWithSpecificLogStatus(
-                ChallengeDbHelper.STATUS_FOLLOWED,
-                olderThanDate = currentDate
+            _todayFollowedChallenges.postValue(followedToday)
+            Log.d(
+                "ChallengeViewModel",
+                "Fetched ${followedToday.size} FOLLOWED challenges for $currentDate"
             )
-            val historicalMap = mutableMapOf<String, List<Challenge>>()
-            for (date in historicalDates) {
-                val challengesForDate = repository.fetchChallengesForDateWithSpecificStatus(
-                    date,
-                    ChallengeDbHelper.STATUS_FOLLOWED
-                )
-                if (challengesForDate.isNotEmpty()) {
-                    val parsedDate = dateFormat.parse(date)
-                    val displayableDate = parsedDate?.let { displayDateFormat.format(it) } ?: date
-                    historicalMap[displayableDate] = challengesForDate
-                }
-            }
-            _historicalFollowedChallengesByDate.postValue(historicalMap)
         }
     }
 
     fun fetchUnFollowedData(currentDate: String) {
         viewModelScope.launch {
-            val todayUnFollowed = repository.fetchChallengesForDateWithSpecificStatus(
+            Log.d("ChallengeViewModel", "Fetching NOT_FOLLOWED challenges for date: $currentDate")
+            val unFollowedToday = repository.fetchChallengesForDateWithSpecificStatus(
                 currentDate,
                 ChallengeDbHelper.STATUS_NOT_FOLLOWED
             )
-            _todayUnFollowedChallenges.postValue(todayUnFollowed)
-
-            val historicalDates = repository.fetchDistinctDatesWithSpecificLogStatus(
-                ChallengeDbHelper.STATUS_NOT_FOLLOWED,
-                olderThanDate = currentDate
+            _todayUnFollowedChallenges.postValue(unFollowedToday)
+            Log.d(
+                "ChallengeViewModel",
+                "Fetched ${unFollowedToday.size} NOT_FOLLOWED challenges for $currentDate"
             )
-            val historicalMap = mutableMapOf<String, List<Challenge>>()
-            for (date in historicalDates) {
-                val challengesForDate = repository.fetchChallengesForDateWithSpecificStatus(
-                    date,
-                    ChallengeDbHelper.STATUS_NOT_FOLLOWED
-                )
-                if (challengesForDate.isNotEmpty()) {
-                    val parsedDate = dateFormat.parse(date)
-                    val displayableDate = parsedDate?.let { displayDateFormat.format(it) } ?: date
-                    historicalMap[displayableDate] = challengesForDate
-                }
-            }
-            _historicalUnFollowedChallengesByDate.postValue(historicalMap)
         }
     }
 
@@ -371,9 +362,24 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     suspend fun getLatestStatusForDate(challengeId: Long, dateStr: String): String? {
-        val logs = repository.getDailyLogsForChallenge(challengeId)
+        val logsForDate = repository.getDailyLogsForChallenge(challengeId)
             .filter { it.logDate == dateStr }
             .sortedByDescending { it.lastUpdatedTime }
-        return logs.firstOrNull()?.status
+
+        if (logsForDate.isEmpty()) {
+            return ChallengeDbHelper.STATUS_PENDING
+        }
+
+        val actionableStatuses = setOf(
+            ChallengeDbHelper.STATUS_FOLLOWED,
+            ChallengeDbHelper.STATUS_NOT_FOLLOWED,
+            ChallengeDbHelper.STATUS_SKIPPED
+        )
+
+        val latestActionableLog = logsForDate.firstOrNull { it.status in actionableStatuses }
+        if (latestActionableLog != null) {
+            return latestActionableLog.status
+        }
+        return logsForDate.firstOrNull()?.status
     }
 }

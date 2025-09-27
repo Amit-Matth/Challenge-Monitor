@@ -81,7 +81,7 @@
                     android:id="@+id/emptyStateTextViewSkipped"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Challenges that were skipped or left unmarked(unlogged) on the current day are automatically marked as skipped by the system and displayed here."
+                    android:text="Challenges that were skipped or left unmarked(unlogged) on the current day are automatically marked as skipped by the system arround 12:00 pm  and displayed here."
                     android:textColor="@color/grey_light_transparent"
                     android:textSize="15sp"
                     android:fontFamily="@font/work_sans"

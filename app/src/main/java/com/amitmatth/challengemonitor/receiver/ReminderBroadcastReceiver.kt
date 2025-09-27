@@ -13,7 +13,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.amitmatth.challengemonitor.R
 import com.amitmatth.challengemonitor.ui.MainActivity
-import com.amitmatth.challengemonitor.ui.fragments.OnboardingFragment5
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -24,12 +23,13 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
         const val CHANNEL_ID = "ChallengeMonitorReminderChannel"
         const val NOTIFICATION_ID = 1
         private const val TAG = "ReminderReceiver"
-        const val ACTION_REMINDER = OnboardingFragment5.ACTION_REMINDER
-        const val REMINDER_REQUEST_CODE = OnboardingFragment5.REMINDER_REQUEST_CODE
-        const val PREFS_NAME = OnboardingFragment5.PREFS_NAME
-        const val KEY_REMINDER_HOUR = OnboardingFragment5.KEY_REMINDER_HOUR
-        const val KEY_REMINDER_MINUTE = OnboardingFragment5.KEY_REMINDER_MINUTE
-        const val KEY_REMINDER_ENABLED = OnboardingFragment5.KEY_REMINDER_ENABLED
+
+        const val PREFS_NAME = "app_prefs"
+        const val KEY_REMINDER_HOUR = "reminderHour"
+        const val KEY_REMINDER_MINUTE = "reminderMinute"
+        const val KEY_REMINDER_ENABLED = "reminderEnabled"
+        const val REMINDER_REQUEST_CODE = 123
+        const val ACTION_REMINDER = "com.amitmatth.challengemonitor.ACTION_REMINDER"
     }
 
     private fun dateTimeLogFormat(): SimpleDateFormat {
@@ -47,10 +47,11 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
             val mainActivityIntent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
+            val activityPendingIntentRequestCode = 0 
             val pendingIntentFlags =
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             val activityPendingIntent =
-                PendingIntent.getActivity(context, 0, mainActivityIntent, pendingIntentFlags)
+                PendingIntent.getActivity(context, activityPendingIntentRequestCode, mainActivityIntent, pendingIntentFlags)
 
             val notificationTitle = "Challenge Monitor Reminder"
             val notificationText = "Don\'t forget to log your challenge progress today!"
@@ -76,16 +77,18 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun createNotificationChannel(context: Context) {
-        val name = "Challenge Monitor Reminders"
-        val descriptionText = "Channel for daily challenge reminders"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-            description = descriptionText
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Challenge Monitor Reminders"
+            val descriptionText = "Channel for daily challenge reminders"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+            Log.d(TAG, "Notification channel '$CHANNEL_ID' created or ensured to exist.")
         }
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        Log.d(TAG, "Notification channel '$CHANNEL_ID' created or ensured to exist.")
     }
 
     private fun rescheduleReminder(context: Context) {
@@ -95,7 +98,7 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
         val enabled = sharedPreferences.getBoolean(KEY_REMINDER_ENABLED, false)
 
         if (!enabled || hour == -1 || minute == -1) {
-            Log.d(TAG, "Reminder is disabled or time not set. Not rescheduling.")
+            Log.d(TAG, "Reminder is disabled or time not set (hour: $hour, minute: $minute, enabled: $enabled). Not rescheduling.")
             return
         }
 
@@ -103,12 +106,17 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
         val intent = Intent(context, ReminderBroadcastReceiver::class.java).apply {
             action = ACTION_REMINDER
         }
-
+        
+        val pendingIntentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             REMINDER_REQUEST_CODE,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            pendingIntentFlags
         )
 
         val calendar = Calendar.getInstance().apply {
@@ -116,51 +124,43 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            add(Calendar.DATE, 1)
+            add(Calendar.DATE, 1) 
         }
 
-        if (calendar.before(Calendar.getInstance())) {
-            Log.d(
-                TAG,
-                "Calculated time for next day is still in the past (should not happen if adding a day). Adjusting."
-            )
-            calendar.add(Calendar.DATE, 1)
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+             Log.d(TAG, "Calculated time for rescheduling ${dateTimeLogFormat().format(calendar.time)} was in the past. Adding another day.")
+             calendar.add(Calendar.DATE, 1)
         }
 
         val scheduledTimeMillis = calendar.timeInMillis
         Log.d(
             TAG,
-            "Rescheduling reminder for: ${dateTimeLogFormat().format(calendar.time)} (Millis: $scheduledTimeMillis)"
+            "Rescheduling reminder for: ${dateTimeLogFormat().format(calendar.time)} (Millis: $scheduledTimeMillis) using H:$hour, M:$minute"
         )
 
         try {
             if (SDK_INT >= Build.VERSION_CODES.S) {
                 if (alarmManager.canScheduleExactAlarms()) {
-                    Log.d(
-                        TAG,
-                        "Rescheduling exact alarm using setExactAndAllowWhileIdle (Android 12+)."
-                    )
+                    Log.d(TAG, "Rescheduling exact alarm using setExactAndAllowWhileIdle (Android 12+).")
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         scheduledTimeMillis,
                         pendingIntent
                     )
                 } else {
-                    Log.w(
-                        TAG,
-                        "Cannot reschedule exact alarm. SCHEDULE_EXACT_ALARM permission not granted."
-                    )
+                    Log.w(TAG, "Cannot reschedule exact alarm. SCHEDULE_EXACT_ALARM permission not granted.")
                 }
-            } else
-                Log.d(
-                    TAG,
-                    "Rescheduling exact alarm using setExactAndAllowWhileIdle (Android 6-11)."
-                )
+            } else if (SDK_INT >= Build.VERSION_CODES.M) {
+                Log.d(TAG, "Rescheduling exact alarm using setExactAndAllowWhileIdle (Android 6-11).")
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     scheduledTimeMillis,
                     pendingIntent
                 )
+            } else {
+                 Log.d(TAG, "Rescheduling exact alarm using setExact (Below Android 6).")
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, scheduledTimeMillis, pendingIntent)
+            }
         } catch (e: SecurityException) {
             Log.e(TAG, "SecurityException while rescheduling reminder.", e)
         }

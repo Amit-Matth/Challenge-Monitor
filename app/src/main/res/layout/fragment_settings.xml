@@ -62,7 +62,7 @@
                     android:layout_height="80dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    tools:src="@drawable/outline_account_circle_24"
+                    tools:src="@drawable/app_logo"
                     android:contentDescription="Profile Image"
                     android:padding="2dp" 
                     app:strokeColor="@color/neon_cyan" 

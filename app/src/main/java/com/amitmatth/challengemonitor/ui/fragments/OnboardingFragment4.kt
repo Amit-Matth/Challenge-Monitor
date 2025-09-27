@@ -93,8 +93,8 @@ class OnboardingFragment4 : Fragment(), OnboardingValidationListener {
             Glide.with(this)
                 .load(it)
                 .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.outline_account_circle_24)
-                .error(R.drawable.outline_account_circle_24)
+                .placeholder(R.drawable.app_logo)
+                .error(R.drawable.app_logo)
                 .into(binding.profileImageView)
         }
     }
@@ -114,7 +114,7 @@ class OnboardingFragment4 : Fragment(), OnboardingValidationListener {
             loadProfileImage(selectedImageUri)
         } else {
             Glide.with(this)
-                .load(R.drawable.outline_account_circle_24)
+                .load(R.drawable.app_logo)
                 .apply(RequestOptions.circleCropTransform())
                 .into(binding.profileImageView)
         }

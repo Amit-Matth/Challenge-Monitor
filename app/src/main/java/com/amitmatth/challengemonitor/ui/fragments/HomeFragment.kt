@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     private var isAutoChangingMonth = false
     private lateinit var selectedDate: Calendar
     private lateinit var currentDisplayedMonthCalendar: Calendar
+    private var isFirstResume = true
 
     private val dbDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val displayDateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
@@ -72,7 +73,10 @@ class HomeFragment : Fragment() {
             }
         } else {
             selectedDate = Calendar.getInstance().apply { clearTime() }
-            currentDisplayedMonthCalendar = Calendar.getInstance().apply { clearTime() }
+            currentDisplayedMonthCalendar = Calendar.getInstance().apply {
+                clearTime()
+                set(Calendar.DAY_OF_MONTH, 1)
+            }
         }
     }
 
@@ -98,8 +102,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSectionRecyclerViews()
-        val isInitialViewCreation = savedInstanceState == null && !::calendarAdapter.isInitialized
-        setupMonthCalendarView(isInitial = isInitialViewCreation)
+        val isInitialCalendarSetup = !::calendarAdapter.isInitialized
+        setupMonthCalendarView(isInitial = isInitialCalendarSetup)
         setupClickListeners()
         setupObservers()
     }
@@ -214,17 +218,27 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (::calendarAdapter.isInitialized) {
-            Log.d(
-                "HomeFragment",
-                "onResume: Calendar adapter initialized, re-setting up month calendar view for persisted date."
-            )
-            setupMonthCalendarView(isInitial = false)
+        if (isFirstResume) {
+            Log.d("HomeFragment", "onResume: First resume, using persisted/initial dates.")
+            if (!::calendarAdapter.isInitialized || _binding?.monthCalendarRecyclerView?.adapter == null) {
+                 setupMonthCalendarView(isInitial = true)
+            } else {
+                 _binding?.monthCalendarRecyclerView?.post { centerCurrentDateInCalendar() }
+            }
+            isFirstResume = false
         } else {
-            Log.d(
-                "HomeFragment",
-                "onResume: Calendar adapter NOT initialized. Load should have been triggered by onViewCreated."
-            )
+            Log.d("HomeFragment", "onResume: Subsequent resume. Resetting calendar to today.")
+            selectedDate = Calendar.getInstance().apply { clearTime() }
+            currentDisplayedMonthCalendar = Calendar.getInstance().apply {
+                clearTime()
+                set(Calendar.DAY_OF_MONTH, 1)
+            }
+            if (::calendarAdapter.isInitialized) {
+                setupMonthCalendarView(isInitial = false)
+                _binding?.monthCalendarRecyclerView?.post { centerCurrentDateInCalendar() }
+            } else {
+                setupMonthCalendarView(isInitial = true)
+            }
         }
     }
 
@@ -284,7 +298,10 @@ class HomeFragment : Fragment() {
         selectedDate.set(Calendar.DAY_OF_MONTH, 1)
         selectedDate.clearTime()
         setupMonthCalendarView()
-        _binding?.monthCalendarRecyclerView?.postDelayed({ isAutoChangingMonth = false }, 200)
+        _binding?.monthCalendarRecyclerView?.postDelayed({ 
+            centerCurrentDateInCalendar()
+            isAutoChangingMonth = false 
+        }, 200)
     }
 
     private fun navigateToNextMonth() {
@@ -295,16 +312,22 @@ class HomeFragment : Fragment() {
         selectedDate.set(Calendar.DAY_OF_MONTH, 1)
         selectedDate.clearTime()
         setupMonthCalendarView()
-        _binding?.monthCalendarRecyclerView?.postDelayed({ isAutoChangingMonth = false }, 200)
+        _binding?.monthCalendarRecyclerView?.postDelayed({ 
+            centerCurrentDateInCalendar()
+            isAutoChangingMonth = false 
+        }, 200)
     }
 
     private fun setupMonthCalendarView(isInitial: Boolean = false) {
         if (!::currentDisplayedMonthCalendar.isInitialized || !::selectedDate.isInitialized) {
             selectedDate = Calendar.getInstance().apply { clearTime() }
-            currentDisplayedMonthCalendar = (selectedDate.clone() as Calendar).apply { clearTime() }
+            currentDisplayedMonthCalendar = (selectedDate.clone() as Calendar).apply { 
+                clearTime()
+                set(Calendar.DAY_OF_MONTH, 1)
+            }
             Log.w(
                 "HomeFragment",
-                "setupMonthCalendarView: currentDisplayedMonthCalendar or selectedDate was not initialized. Resetting to today."
+                "setupMonthCalendarView: currentDisplayedMonthCalendar or selectedDate was not initialized. Resetting to today's month."
             )
         }
         updateMonthYearTextView()
@@ -319,25 +342,30 @@ class HomeFragment : Fragment() {
 
                 if (selectedDateModel.isCurrentMonth) {
                     lifecycleScope.launch { displayChallengesForSelectedDate() }
-                    centerCurrentDateInCalendar()
                 } else {
                     isAutoChangingMonth = true
                     currentDisplayedMonthCalendar = newSelectedDate.clone() as Calendar
+                    currentDisplayedMonthCalendar.set(Calendar.DAY_OF_MONTH, 1)
                     setupMonthCalendarView()
                     _binding?.monthCalendarRecyclerView?.postDelayed({
+                        centerCurrentDateInCalendar()
                         isAutoChangingMonth = false
                     }, 250)
                 }
             }
-            Log.d("HomeFragment", "setupMonthCalendarView: CalendarAdapter instance (re)created.")
+            Log.d("HomeFragment", "setupMonthCalendarView: CalendarAdapter instance (re)created with selectedDate: ${displayDateFormat.format(this.selectedDate.time)}.")
+            _binding?.monthCalendarRecyclerView?.adapter = calendarAdapter
         } else {
             calendarAdapter.updateDates(dateList)
-            Log.d("HomeFragment", "setupMonthCalendarView: Existing CalendarAdapter data updated.")
+            Log.d("HomeFragment", "setupMonthCalendarView: Existing CalendarAdapter data updated for month: ${monthYearFormat.format(currentDisplayedMonthCalendar.time)}.")
+        }
+        if (_binding?.monthCalendarRecyclerView?.adapter == null && ::calendarAdapter.isInitialized) {
+             _binding?.monthCalendarRecyclerView?.adapter = calendarAdapter
         }
 
         _binding?.monthCalendarRecyclerView?.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        _binding?.monthCalendarRecyclerView?.adapter = calendarAdapter
+        
         Log.d(
             "HomeFragment",
             "setupMonthCalendarView: Adapter and LayoutManager (re)set on RecyclerView."
@@ -345,9 +373,9 @@ class HomeFragment : Fragment() {
 
         if (::calendarAdapter.isInitialized) {
             calendarAdapter.setSelectedDate(this.selectedDate)
-        Log.d(
+            Log.d(
                 "HomeFragment",
-                "setupMonthCalendarView: setSelectedDate called on adapter."
+                "setupMonthCalendarView: setSelectedDate called on adapter with: ${displayDateFormat.format(this.selectedDate.time)}."
             )
         }
 
@@ -409,11 +437,22 @@ class HomeFragment : Fragment() {
 
     private fun centerCurrentDateInCalendar(attempt: Int = 0) {
         val currentBinding = _binding
-        if (currentBinding == null || !isAdded || !::calendarAdapter.isInitialized) return
+        if (currentBinding == null || !isAdded || !::calendarAdapter.isInitialized || calendarAdapter.itemCount == 0) {
+            Log.d("HomeFragment", "centerCurrentDateInCalendar: Pre-conditions not met (binding, added, adapter init, itemCount).")
+            return
+        }
         val layoutManager =
             currentBinding.monthCalendarRecyclerView.layoutManager as? LinearLayoutManager ?: return
-        val targetPosition = calendarAdapter.findPositionForDate(selectedDate)
-        if (targetPosition == -1 || targetPosition >= calendarAdapter.itemCount) return
+        
+        val targetDateToCenter = this.selectedDate
+        val targetPosition = calendarAdapter.findPositionForDate(targetDateToCenter)
+        
+        Log.d("HomeFragment", "centerCurrentDateInCalendar: Attempting to center date: ${displayDateFormat.format(targetDateToCenter.time)}, found at position: $targetPosition")
+
+        if (targetPosition == -1 || targetPosition >= calendarAdapter.itemCount) {
+            Log.w("HomeFragment", "centerCurrentDateInCalendar: Target position $targetPosition out of bounds for item count ${calendarAdapter.itemCount}.")
+            return
+        }
 
         val viewToCenter = layoutManager.findViewByPosition(targetPosition)
         if (viewToCenter != null) {
@@ -422,21 +461,20 @@ class HomeFragment : Fragment() {
             if (itemWidth > 0 && recyclerViewWidth > 0) {
                 val offset = (recyclerViewWidth / 2) - (itemWidth / 2)
                 layoutManager.scrollToPositionWithOffset(targetPosition, offset)
+                Log.d("HomeFragment", "centerCurrentDateInCalendar: Scrolled to position $targetPosition with offset $offset.")
             } else if (attempt < 2) {
                 layoutManager.scrollToPosition(targetPosition)
                 currentBinding.monthCalendarRecyclerView.postDelayed({
-                    centerCurrentDateInCalendar(
-                        attempt + 1
-                    )
+                    centerCurrentDateInCalendar(attempt + 1)
                 }, 100)
+                 Log.d("HomeFragment", "centerCurrentDateInCalendar: Item/RV width not ready. Posting delayed attempt ${attempt + 1} for pos $targetPosition.")
             }
         } else if (attempt < 2) {
             layoutManager.scrollToPosition(targetPosition)
             currentBinding.monthCalendarRecyclerView.postDelayed({
-                centerCurrentDateInCalendar(
-                    attempt + 1
-                )
+                centerCurrentDateInCalendar(attempt + 1)
             }, 100)
+            Log.d("HomeFragment", "centerCurrentDateInCalendar: View for pos $targetPosition not found. Posting delayed attempt ${attempt + 1}.")
         }
     }
 

@@ -30,8 +30,11 @@ class ProgressBarAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(metric: DashboardMetricItem) {
+            binding.metricTitleTextView.text = metric.title
             val targetProgress = metric.progress.toInt()
             val progressColor = ContextCompat.getColor(itemView.context, metric.progressColorRes)
+
+            binding.metricTitleTextView.setTextColor(progressColor)
 
             binding.metricProgressBar.setProgressColor(progressColor)
 

@@ -38,8 +38,8 @@ class EditProfileFragment : Fragment() {
                         Glide.with(this)
                             .load(uri)
                             .circleCrop()
-                            .placeholder(R.drawable.outline_account_circle_24)
-                            .error(R.drawable.outline_account_circle_24)
+                            .placeholder(R.drawable.app_logo)
+                            .error(R.drawable.app_logo)
                             .into(binding.editProfileImageView)
                     } catch (_: SecurityException) {
                         SnackbarUtils.showCustomSnackbar(
@@ -103,12 +103,12 @@ class EditProfileFragment : Fragment() {
             Glide.with(this)
                 .load(imageUri)
                 .circleCrop()
-                .placeholder(R.drawable.outline_account_circle_24)
-                .error(R.drawable.outline_account_circle_24)
+                .placeholder(R.drawable.app_logo)
+                .error(R.drawable.app_logo)
                 .into(binding.editProfileImageView)
         } ?: run {
             Glide.with(this)
-                .load(R.drawable.outline_account_circle_24)
+                .load(R.drawable.app_logo)
                 .circleCrop()
                 .into(binding.editProfileImageView)
         }

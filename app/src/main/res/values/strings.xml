@@ -31,6 +31,7 @@
     <string name="dashboard_metric_success_rate">Success Rate</string>
     <string name="dashboard_metric_total_challenges">Total Challenges</string>
     <string name="dashboard_metric_completed_overall">Completed (Overall)</string>
+    <string name="dashboard_metric_deleted_challenges">Deleted (Overall)</string>
     <string name="dashboard_metric_followed_today">Followed Today</string>
     <string name="dashboard_metric_not_followed_today">Not Followed Today</string>
     <string name="dashboard_metric_skipped_today">Skipped Today</string>

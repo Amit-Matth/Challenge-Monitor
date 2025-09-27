@@ -66,5 +66,13 @@
     <color name="yellow_light">#FFEB3B</color>
     <color name="pie_chart_active_challenge">#FF9800</color>
     <color name="pie_chart_completed_challenge">#03A9F4</color>
-
+    <color name="colorTotalChallenges">#4CAF50</color>
+    <color name="colorCompletedOverall">#2196F3</color>
+    <color name="colorSuccessRate">#FFC107</color>
+    <color name="colorFollowedToday">#4CAF50</color>
+    <color name="colorNotFollowedToday">#F44336</color>
+    <color name="colorSkippedToday">#FF9800</color>
+    <color name="colorLoggedToday">#03A9F4</color>
+    <color name="colorUnloggedToday">#9E9E9E</color>
+    <color name="colorDeletedChallenges">#E57373</color>
 </resources>

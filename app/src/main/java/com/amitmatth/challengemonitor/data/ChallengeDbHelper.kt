@@ -57,7 +57,8 @@ class ChallengeDbHelper(context: Context) :
 
     override fun onCreate(db: SQLiteDatabase) {
         val createChallengesTable = ("CREATE TABLE " + TABLE_CHALLENGES + "("
-                + COLUMN_CHALLENGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_CHALLENGE_TITLE + " TEXT NOT NULL," + COLUMN_CHALLENGE_DESCRIPTION + " TEXT," + COLUMN_CHALLENGE_START_DATE + " TEXT NOT NULL," + COLUMN_CHALLENGE_END_DATE + " TEXT NOT NULL," + COLUMN_CHALLENGE_DURATION_DAYS + " INTEGER NOT NULL," + COLUMN_CHALLENGE_DAYSLOGGED + " INTEGER NOT NULL," + COLUMN_CHALLENGE_IS_ACTIVE + " INTEGER DEFAULT 1" + ")")
+                + COLUMN_CHALLENGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_CHALLENGE_TITLE + " TEXT NOT NULL," + COLUMN_CHALLENGE_DESCRIPTION + " TEXT," + COLUMN_CHALLENGE_START_DATE + " TEXT NOT NULL," + COLUMN_CHALLENGE_END_DATE +
+                " TEXT NOT NULL," + COLUMN_CHALLENGE_DURATION_DAYS + " INTEGER NOT NULL," + COLUMN_CHALLENGE_DAYSLOGGED + " INTEGER NOT NULL," + COLUMN_CHALLENGE_IS_ACTIVE + " INTEGER DEFAULT 1" + ")")
 
         val createDailyLogTable = ("CREATE TABLE " + TABLE_DAILY_LOG + "("
                 + COLUMN_LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_LOG_CHALLENGE_ID_FK + " INTEGER NOT NULL," + COLUMN_LOG_DATE + " TEXT NOT NULL," + COLUMN_LOG_STATUS + " TEXT NOT NULL," + COLUMN_LOG_NOTES + " TEXT," + COLUMN_LOG_LAST_UPDATED + " TEXT NOT NULL,"
@@ -89,7 +90,8 @@ class ChallengeDbHelper(context: Context) :
             put(COLUMN_CHALLENGE_IS_ACTIVE, if (challenge.isActive) 1 else 0)
             put(COLUMN_CHALLENGE_DAYSLOGGED, challenge.daysLogged)
         }
-        val id = db.insert(TABLE_CHALLENGES, null, values)
+        val
+                id = db.insert(TABLE_CHALLENGES, null, values)
         return id
     }
 
@@ -149,7 +151,10 @@ class ChallengeDbHelper(context: Context) :
         return challenges
     }
 
-    fun deleteChallengeById(challengeId: Long): Int {
+    fun deleteChallengeById(
+        challengeId
+        : Long
+    ): Int {
         val db = this.writableDatabase
         return db.delete(
             TABLE_CHALLENGES,
@@ -203,9 +208,10 @@ class ChallengeDbHelper(context: Context) :
         )
         val selection =
             "$COLUMN_LOG_CHALLENGE_ID_FK = ? AND $COLUMN_LOG_DATE = ? AND $COLUMN_LOG_STATUS IN (${
-                actionableStatuses.joinToString(
-                    separator = ",",
-                    transform = { "'${'$'}{it}'" })
+                actionableStatuses
+                    .joinToString(
+                        separator = ",",
+                        transform = { "\'${'$'}{it}\'" })
             })"
         val cursor = db.query(
             TABLE_DAILY_LOG,
@@ -229,33 +235,35 @@ class ChallengeDbHelper(context: Context) :
         val challenges = mutableListOf<Challenge>()
         val db = this.readableDatabase
 
+        val loggedStatuses = arrayOf(STATUS_FOLLOWED, STATUS_NOT_FOLLOWED, STATUS_SKIPPED)
+        val loggedStatusesPlaceholders =
+            loggedStatuses.joinToString(separator = ",", transform = { "?" })
+
         val query = """
         SELECT DISTINCT c.*
         FROM $TABLE_CHALLENGES c
         JOIN $TABLE_DAILY_LOG dl 
           ON c.$COLUMN_CHALLENGE_ID = dl.$COLUMN_LOG_CHALLENGE_ID_FK
         WHERE c.$COLUMN_CHALLENGE_IS_ACTIVE = 1
-          AND c.$COLUMN_CHALLENGE_START_DATE <= ?
-          AND c.$COLUMN_CHALLENGE_END_DATE >= ?
-          AND dl.$COLUMN_LOG_DATE = ?
-          AND dl.$COLUMN_LOG_STATUS IN (?, ?, ?) 
+          AND c.$COLUMN_CHALLENGE_START_DATE <= ? 
+          AND c.$COLUMN_CHALLENGE_END_DATE >= ? 
+          AND dl.$COLUMN_LOG_DATE = ? 
+          AND dl.$COLUMN_LOG_STATUS IN ($loggedStatusesPlaceholders)
           AND dl.$COLUMN_LOG_LAST_UPDATED = (
               SELECT MAX(dlSub.$COLUMN_LOG_LAST_UPDATED)
               FROM $TABLE_DAILY_LOG dlSub
               WHERE dlSub.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID 
-                AND dlSub.$COLUMN_LOG_DATE = ?
+                AND dlSub.$COLUMN_LOG_DATE = ? 
+                AND dlSub.$COLUMN_LOG_STATUS IN ($loggedStatusesPlaceholders) 
           )
         ORDER BY c.$COLUMN_CHALLENGE_START_DATE DESC
     """
+        val params = mutableListOf(date, date, date)
+        params.addAll(loggedStatuses)
+        params.add(date)
+        params.addAll(loggedStatuses)
 
-        val cursor = db.rawQuery(
-            query,
-            arrayOf(
-                date, date, date,
-                STATUS_FOLLOWED, STATUS_NOT_FOLLOWED, STATUS_SKIPPED,
-                date
-            )
-        )
+        val cursor = db.rawQuery(query, params.toTypedArray())
 
         cursor.use {
             if (it.moveToFirst()) {
@@ -272,29 +280,37 @@ class ChallengeDbHelper(context: Context) :
         val challenges = mutableListOf<Challenge>()
         val db = this.readableDatabase
 
+        val actionableStatuses = arrayOf(STATUS_FOLLOWED, STATUS_NOT_FOLLOWED, STATUS_SKIPPED)
+        val actionableStatusesPlaceholders =
+            actionableStatuses.joinToString(separator = ",", transform = { "?" })
+
         val query = """
         SELECT c.*
         FROM $TABLE_CHALLENGES c
         WHERE c.$COLUMN_CHALLENGE_IS_ACTIVE = 1
-          AND c.$COLUMN_CHALLENGE_START_DATE <= ?
-          AND c.$COLUMN_CHALLENGE_END_DATE >= ?
+          AND c.$COLUMN_CHALLENGE_START_DATE <= ? 
+          AND c.$COLUMN_CHALLENGE_END_DATE >= ? 
           AND NOT EXISTS (
               SELECT 1
               FROM $TABLE_DAILY_LOG dl
               WHERE dl.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID
-                AND dl.$COLUMN_LOG_DATE = ?
-                AND dl.$COLUMN_LOG_STATUS IN (?, ?, ?)
+                AND dl.$COLUMN_LOG_DATE = ? 
+                AND dl.$COLUMN_LOG_STATUS IN ($actionableStatusesPlaceholders)
+                AND dl.$COLUMN_LOG_LAST_UPDATED = (
+                    SELECT MAX(dlSub.$COLUMN_LOG_LAST_UPDATED)
+                    FROM $TABLE_DAILY_LOG dlSub
+                    WHERE dlSub.$COLUMN_LOG_CHALLENGE_ID_FK = dl.$COLUMN_LOG_CHALLENGE_ID_FK
+                      AND dlSub.$COLUMN_LOG_DATE = dl.$COLUMN_LOG_DATE
+                      AND dlSub.$COLUMN_LOG_STATUS IN ($actionableStatusesPlaceholders)
+                )
           )
         ORDER BY c.$COLUMN_CHALLENGE_START_DATE DESC
     """
+        val params = mutableListOf(date, date, date)
+        params.addAll(actionableStatuses)
+        params.addAll(actionableStatuses)
 
-        val cursor = db.rawQuery(
-            query,
-            arrayOf(
-                date, date, date,
-                STATUS_FOLLOWED, STATUS_NOT_FOLLOWED, STATUS_SKIPPED
-            )
-        )
+        val cursor = db.rawQuery(query, params.toTypedArray())
 
         cursor.use {
             if (it.moveToFirst()) {
@@ -314,17 +330,18 @@ class ChallengeDbHelper(context: Context) :
         SELECT DISTINCT c.*
         FROM $TABLE_CHALLENGES c
         JOIN $TABLE_DAILY_LOG dl ON c.$COLUMN_CHALLENGE_ID = dl.$COLUMN_LOG_CHALLENGE_ID_FK
-        WHERE dl.$COLUMN_LOG_DATE = ?
-          AND dl.$COLUMN_LOG_STATUS = ?
+        WHERE dl.$COLUMN_LOG_DATE = ? 
+          AND dl.$COLUMN_LOG_STATUS = ? 
           AND dl.$COLUMN_LOG_LAST_UPDATED = (
               SELECT MAX(dlSub.$COLUMN_LOG_LAST_UPDATED)
               FROM $TABLE_DAILY_LOG dlSub
               WHERE dlSub.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID
-                AND dlSub.$COLUMN_LOG_DATE = ?
+                AND dlSub.$COLUMN_LOG_DATE = ? 
+                AND dlSub.$COLUMN_LOG_STATUS = ? 
           )
         ORDER BY c.$COLUMN_CHALLENGE_START_DATE DESC
     """
-        val cursor = db.rawQuery(query, arrayOf(date, STATUS_SKIPPED, date))
+        val cursor = db.rawQuery(query, arrayOf(date, STATUS_SKIPPED, date, STATUS_SKIPPED))
         cursor.use {
             if (it.moveToFirst()) {
                 do {
@@ -453,34 +470,31 @@ class ChallengeDbHelper(context: Context) :
 
     fun markUnloggedChallengesAsSkipped(currentDate: String): List<Long> {
         val db = this.writableDatabase
+        val anyUserInteractionStatuses = arrayOf(
+            STATUS_FOLLOWED, STATUS_NOT_FOLLOWED, STATUS_SKIPPED,
+            STATUS_CREATED, STATUS_EDITED
+        )
+        val anyUserInteractionPlaceholders =
+            anyUserInteractionStatuses.joinToString(separator = ",", transform = { "?" })
+
         val unloggedChallengesQuery = """
             SELECT c.$COLUMN_CHALLENGE_ID
             FROM $TABLE_CHALLENGES c
             WHERE c.$COLUMN_CHALLENGE_IS_ACTIVE = 1
-              AND c.$COLUMN_CHALLENGE_START_DATE <= ?
-              AND c.$COLUMN_CHALLENGE_END_DATE >= ?
+              AND c.$COLUMN_CHALLENGE_START_DATE <= ? 
+              AND c.$COLUMN_CHALLENGE_END_DATE >= ? 
               AND NOT EXISTS (
                   SELECT 1
                   FROM $TABLE_DAILY_LOG dl
                   WHERE dl.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID
-                    AND dl.$COLUMN_LOG_DATE = ?
-                    AND dl.$COLUMN_LOG_STATUS IN (?, ?, ?, ?, ?) 
+                    AND dl.$COLUMN_LOG_DATE = ? 
+                    AND dl.$COLUMN_LOG_STATUS IN ($anyUserInteractionPlaceholders)
               )
         """
+        val params = mutableListOf(currentDate, currentDate, currentDate)
+        params.addAll(anyUserInteractionStatuses)
 
-        val cursor = db.rawQuery(
-            unloggedChallengesQuery,
-            arrayOf(
-                currentDate,
-                currentDate,
-                currentDate,
-                STATUS_FOLLOWED,
-                STATUS_NOT_FOLLOWED,
-                STATUS_SKIPPED,
-                STATUS_CREATED,
-                STATUS_EDITED
-            )
-        )
+        val cursor = db.rawQuery(unloggedChallengesQuery, params.toTypedArray())
         val challengeIdsToSkip = mutableListOf<Long>()
         cursor.use {
             if (it.moveToFirst()) {
@@ -492,18 +506,15 @@ class ChallengeDbHelper(context: Context) :
 
         if (challengeIdsToSkip.isNotEmpty()) {
             db.transaction {
-                try {
-                    for (challengeId in challengeIdsToSkip) {
-                        val values = ContentValues().apply {
-                            put(COLUMN_LOG_CHALLENGE_ID_FK, challengeId)
-                            put(COLUMN_LOG_DATE, currentDate)
-                            put(COLUMN_LOG_STATUS, STATUS_SKIPPED)
-                            put(COLUMN_LOG_NOTES, "Automatically skipped")
-                            put(COLUMN_LOG_LAST_UPDATED, dateTimeFormat().format(Date()))
-                        }
-                        insert(TABLE_DAILY_LOG, null, values)
+                for (challengeId in challengeIdsToSkip) {
+                    val values = ContentValues().apply {
+                        put(COLUMN_LOG_CHALLENGE_ID_FK, challengeId)
+                        put(COLUMN_LOG_DATE, currentDate)
+                        put(COLUMN_LOG_STATUS, STATUS_SKIPPED)
+                        put(COLUMN_LOG_NOTES, "Automatically skipped")
+                        put(COLUMN_LOG_LAST_UPDATED, dateTimeFormat().format(Date()))
                     }
-                } finally {
+                    insert(TABLE_DAILY_LOG, null, values)
                 }
             }
         }
@@ -524,10 +535,11 @@ class ChallengeDbHelper(context: Context) :
                   FROM $TABLE_DAILY_LOG dlSub
                   WHERE dlSub.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID 
                     AND dlSub.$COLUMN_LOG_DATE = ? 
+                    AND dlSub.$COLUMN_LOG_STATUS = ? 
               )
             ORDER BY c.$COLUMN_CHALLENGE_TITLE ASC 
         """
-        val cursor = db.rawQuery(query, arrayOf(date, status, date))
+        val cursor = db.rawQuery(query, arrayOf(date, status, date, status))
         cursor.use {
             if (it.moveToFirst()) {
                 do {
@@ -555,6 +567,7 @@ class ChallengeDbHelper(context: Context) :
         val query = """
             SELECT DISTINCT dl.$COLUMN_LOG_DATE
             FROM $TABLE_DAILY_LOG dl
+            JOIN $TABLE_CHALLENGES c ON dl.$COLUMN_LOG_CHALLENGE_ID_FK = c.$COLUMN_CHALLENGE_ID 
             WHERE dl.$COLUMN_LOG_STATUS = ? 
               $dateCondition
               AND dl.$COLUMN_LOG_LAST_UPDATED = (
@@ -562,9 +575,11 @@ class ChallengeDbHelper(context: Context) :
                   FROM $TABLE_DAILY_LOG dlSub
                   WHERE dlSub.$COLUMN_LOG_CHALLENGE_ID_FK = dl.$COLUMN_LOG_CHALLENGE_ID_FK 
                     AND dlSub.$COLUMN_LOG_DATE = dl.$COLUMN_LOG_DATE
+                    AND dlSub.$COLUMN_LOG_STATUS = ? 
               )
             ORDER BY dl.$COLUMN_LOG_DATE DESC
         """
+        selectionArgs.add(status)
 
         val cursor = db.rawQuery(query, selectionArgs.toTypedArray())
         cursor.use {

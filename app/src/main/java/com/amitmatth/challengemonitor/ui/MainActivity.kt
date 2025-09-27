@@ -75,9 +75,28 @@ class MainActivity : AppCompatActivity() {
         initializeComponents()
         scheduleAutoSkipWorkerUsingAlarmManager()
         setupUI()
+        updateToolbarNavigation()
+
         handleOnboarding(savedInstanceState)
         setupListeners()
         startFuturisticAnimations()
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (::drawerToggle.isInitialized) {
+            drawerToggle.syncState()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::drawerToggle.isInitialized) {
+            drawerToggle.syncState()
+        }
+        invalidateOptionsMenu()
+        loadNavHeaderData()
+        updateBottomNavigationState()
     }
 
     private fun initializeComponents() {
@@ -131,10 +150,18 @@ class MainActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             Log.d(
                 "MainActivity",
-                "AutoSkipSchedulerReceiver alarm set to repeat daily around 23:50. First run: ${sdf.format(calendar.time)}"
+                "AutoSkipSchedulerReceiver alarm set to repeat daily around 23:50. First run: ${
+                    sdf.format(
+                        calendar.time
+                    )
+                }"
             )
         } catch (e: SecurityException) {
-            Log.e("MainActivity", "SecurityException while scheduling auto skip alarm: ${e.message}", e)
+            Log.e(
+                "MainActivity",
+                "SecurityException while scheduling auto skip alarm: ${e.message}",
+                e
+            )
         } catch (e: Exception) {
             Log.e("MainActivity", "Exception while scheduling auto skip alarm: ${e.message}", e)
         }
@@ -147,7 +174,8 @@ class MainActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
 
             val inflater = LayoutInflater.from(this@MainActivity)
-            inflatedCustomToolbarView = inflater.inflate(R.layout.layout_custom_toolbar, binding.toolbar, false)
+            inflatedCustomToolbarView =
+                inflater.inflate(R.layout.layout_custom_toolbar, binding.toolbar, false)
 
             val lp = ActionBar.LayoutParams(
                 ActionBar.LayoutParams.MATCH_PARENT,
@@ -278,19 +306,20 @@ class MainActivity : AppCompatActivity() {
     private fun animateFAB() {
         binding.createChallenge.animate().scaleX(0.9f).scaleY(0.9f).setDuration(250)
             .setInterpolator(DecelerateInterpolator()).withEndAction {
-            binding.createChallenge.animate().scaleX(1.05f).scaleY(1.05f).setDuration(150)
-                .withEndAction {
-                    binding.createChallenge.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
-                }.start()
-        }.start()
+                binding.createChallenge.animate().scaleX(1.05f).scaleY(1.05f).setDuration(150)
+                    .withEndAction {
+                        binding.createChallenge.animate().scaleX(1f).scaleY(1f).setDuration(100)
+                            .start()
+                    }.start()
+            }.start()
         binding.pulseRing.animate().scaleX(1.5f).scaleY(1.5f).alpha(0f).setDuration(250)
             .setInterpolator(DecelerateInterpolator()).withEndAction {
-            binding.pulseRing.scaleX = 1f
-            binding.pulseRing.scaleY = 1f
-            binding.pulseRing.alpha = 0.6f
-            val pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation)
-            binding.pulseRing.startAnimation(pulseAnimation)
-        }.start()
+                binding.pulseRing.scaleX = 1f
+                binding.pulseRing.scaleY = 1f
+                binding.pulseRing.alpha = 0.6f
+                val pulseAnimation = AnimationUtils.loadAnimation(this, R.anim.pulse_animation)
+                binding.pulseRing.startAnimation(pulseAnimation)
+            }.start()
     }
 
     private fun createRippleEffect(view: View) {
@@ -381,6 +410,14 @@ class MainActivity : AppCompatActivity() {
         val isTopLevel =
             currentFragment?.let { topLevelDestinations.contains(it::class.java.name) } ?: true
 
+        if (!::drawerToggle.isInitialized) {
+            Log.w(
+                "MainActivity",
+                "updateToolbarNavigation: drawerToggle not initialized. SetupUI might not have completed."
+            )
+            return
+        }
+
         drawerToggle.isDrawerIndicatorEnabled = isTopLevel
         supportActionBar?.setDisplayHomeAsUpEnabled(!isTopLevel)
 
@@ -449,6 +486,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         ft.commit()
+        supportFragmentManager.executePendingTransactions()
         binding.root.post {
             updateToolbarNavigation()
             updateCustomToolbarContent()
@@ -465,7 +503,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (::drawerToggle.isInitialized && drawerToggle.onOptionsItemSelected(item)) {
             return true
         }
         when (item.itemId) {
@@ -505,13 +543,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadProfileImage(imageView: ImageView, imageUriString: String?) {
-        val imageSource = imageUriString?.toUri() ?: R.drawable.outline_account_circle_24
+        val imageSource = imageUriString?.toUri() ?: R.drawable.app_logo
 
         Glide.with(this).load(imageSource).circleCrop()
-            .placeholder(R.drawable.outline_account_circle_24)
-            .error(R.drawable.outline_account_circle_24).into(imageView)
+            .placeholder(R.drawable.app_logo)
+            .error(R.drawable.app_logo).into(imageView)
 
-        val navIconTintColorStateList = ContextCompat.getColorStateList(this, R.color.nav_icon_selector)
+        val navIconTintColorStateList =
+            ContextCompat.getColorStateList(this, R.color.nav_icon_selector)
         binding.navStatsIcon.imageTintList = navIconTintColorStateList
         updateNavigationIcons()
     }
