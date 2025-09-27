@@ -7,18 +7,17 @@
 ### 📲 APK Download
 [![GitHub Release](https://img.shields.io/github/v/release/Amit-Matth/Challenge-Monitor?style=for-the-badge&color=pink&label=Download%20APK&logo=github&logoColor=white)](https://github.com/Amit-Matth/Challenge-Monitor/releases/latest)
 
-
 ## ⚒️ Technologies Used  
 
 <p align="left">
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white&style=for-the-badge" />
-  <img src="https://img.shields.io/badge/XML-E34F26?logo=xml&logoColor=white&style=for-the-badge" />
+  <img src="https://img.shields.io/badge/XML-FF9900?logo=xml&logoColor=white&style=for-the-badge" />
   <img src="https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white&style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Glide-0E76A8?logo=android&logoColor=white&style=for-the-badge" />
-  <img src="https://img.shields.io/badge/MVVM%20Architecture-FF6F00?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Shared%20Preferences-009688?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Android%20WorkManager-4285F4?logo=android&logoColor=white&style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Android%20AlarmManager-FF4081?logo=android&logoColor=white&style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Glide-00C853?logo=android&logoColor=white&style=for-the-badge" />
+  <img src="https://img.shields.io/badge/MVVM-Architecture-FF6F00?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Shared-Preferences-009688?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Android-WorkManager-4285F4?logo=android&logoColor=white&style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Android-AlarmManager-FF4081?logo=android&logoColor=white&style=for-the-badge" />
 </p>
 
 ## 📸 Screenshots  
@@ -35,10 +34,7 @@
 
 ## 🎥 Screen Recording  
 
-
 https://github.com/user-attachments/assets/757fd7f5-5c8a-4315-bd59-cd1bc60fb267
-
-
 
 ## ✨ **Features**
 
